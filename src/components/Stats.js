@@ -1,11 +1,48 @@
 import Plot from "react-plotly.js";
+import { Form, Button } from "react-bootstrap";
+import { useState } from "react";
+import appConfig from "../config.json";
+import Axios from "axios";
 
 const Stats = ({ xs, clientHistory }) => {
+    const [containerAmount, setContainerAmount] = useState(0);
+    const [method, setMethod] = useState("POST");
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        const reqConfig = {
+            method: method,
+            data: { amount: containerAmount },
+            url: `http://${appConfig.backend.host}:${appConfig.backend.port}/client/containers`
+        }
+        alert("Se envió la señal");
+        Axios.request(reqConfig).then(response => {
+          const responseData = response.data;
+          console.log("Response: " + responseData);
+        }).catch(error => {
+          console.log(error);
+          alert(error);
+        });
+    };
+
+    const centerStyle = {margin: "1%", display: "flex", justifyContent: "center", alignItems: "center"};
+
     const current = clientHistory[clientHistory.length -1];
     const statusColor = (current.status === "READY") ? "green" : (current.status === "DEAD") ? "red" : "blue";
     return (
         <div>
-            <span style={{ margin: '5%', display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <Form style={centerStyle} onSubmit={onSubmit}>
+                <Form.Group>
+                    <Form.Label>Numero de contenedores</Form.Label>
+                    <Form.Control type="number" style={{width: "80%"}} onChange={ (event) => setContainerAmount(event.target.value) }/>
+                </Form.Group>
+                <Form.Group>
+                    <Button type="submit" style={{marginRight: "1%"}} variant="success" onClick={() => setMethod("POST")}>Levantar</Button>
+                    <Button type="submit" variant="danger" onClick={() => setMethod("DELETE")}>Bajar</Button>
+                </Form.Group>
+            </Form>
+            <span style={centerStyle}>
                 <b>Estado del cliente:&ensp;</b>
                 <span style={{color: statusColor}}>{current.status}</span>
                 &emsp;
@@ -29,7 +66,6 @@ const Stats = ({ xs, clientHistory }) => {
                 ]}
                 layout={{
                     title: "<b>Error</b>",
-                    width: "80%"
                 }}
             />
         </div>
