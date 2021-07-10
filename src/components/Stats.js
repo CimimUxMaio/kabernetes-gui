@@ -7,6 +7,8 @@ import Axios from "axios";
 const Stats = ({ xs, clientHistory }) => {
     const [containerAmount, setContainerAmount] = useState(0);
     const [method, setMethod] = useState("POST");
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -65,7 +67,18 @@ const Stats = ({ xs, clientHistory }) => {
                     }
                 ]}
                 layout={{
-                    title: "<b>Error</b>",
+                    title: {
+                        text: "<b>Error</b>",
+                    },
+                    yaxis: {
+                        title: "e(t)",
+                        range: [-100, 100]
+                    },
+                    xaxis: {
+                        title: "t"
+                    },
+                    width: screenWidth * 0.95,
+                    height: screenHeight * 0.7
                 }}
             />
         </div>
