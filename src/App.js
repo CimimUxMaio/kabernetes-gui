@@ -40,7 +40,7 @@ const App = () => {
       });
     };
 
-    const dataRate = 3; // Cada 3s
+    const dataRate = 1; // Cada 3s
     const interval = setInterval(() => {
       if (isMounted) {
         getData();
