@@ -23,8 +23,8 @@ const Stats = ({ xs, clientHistory }) => {
           const responseData = response.data;
           console.log("Response: " + responseData);
         }).catch(error => {
-          console.log(error);
-          alert(error);
+          console.log(error.response.data);
+          alert(error.response.data);
         });
     };
 
