@@ -72,7 +72,7 @@ const Stats = ({ xs, clientHistory }) => {
                     },
                     yaxis: {
                         title: "e(t)",
-                        range: [-100, 100]
+                        range: [-(current.cpu_target * 1.5), current.cpu_target * 1.5]
                     },
                     xaxis: {
                         title: "t"
